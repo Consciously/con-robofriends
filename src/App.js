@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import CardList from './components/CardList/CardList.component';
 import SearchBox from './components/SearchBox/SearchBox.component';
 import Scroll from './components/Scroll/Scroll.component';
+import ErrorBoundry from './components/ErrorBoundry/ErrorBoundry.component';
 import './App.css';
 
 const App = () => {
@@ -50,7 +51,9 @@ const App = () => {
 				<h1>Loading...</h1>
 			) : (
 				<Scroll>
-					<CardList robots={filteredRobots} />
+					<ErrorBoundry>
+						<CardList robots={filteredRobots} />
+					</ErrorBoundry>
 				</Scroll>
 			)}
 		</div>
