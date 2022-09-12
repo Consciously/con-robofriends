@@ -1,28 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
+import CardList from './components/CardList/CardList.component';
+import SearchBox from './components/SearchBox/SearchBox.component';
 
-class App extends Component {
-	render() {
-		return (
-			<div className='App'>
-				<header className='App-header'>
-					<img src={logo} className='App-logo' alt='logo' />
-					<p>
-						Edit <code>src/App.js</code> and save to reload.
-					</p>
-					<a
-						className='App-link'
-						href='https://reactjs.org'
-						target='_blank'
-						rel='noopener noreferrer'
-					>
-						Learn React
-					</a>
-				</header>
-			</div>
+const App = () => {
+	const [robots, setRobots] = useState([]);
+	const [searchField, setSearchField] = useState('');
+	const [filteredRobots, setFilteredRobots] = useState(robots);
+
+	useEffect(() => {
+		const fetchUsers = async () => {
+			try {
+				const response = await fetch(
+					'https://jsonplaceholder.typicode.com/users'
+				);
+				const data = await response.json();
+				setRobots(data);
+			} catch (error) {
+				console.error(error.message);
+			}
+		};
+
+		fetchUsers();
+	}, []);
+
+	useEffect(() => {
+		const filteredRobotsArray = robots.filter(robot =>
+			robot?.name.toLowerCase().includes(searchField)
 		);
-	}
-}
+
+		setFilteredRobots(filteredRobotsArray);
+	}, [robots, searchField]);
+
+	const searchFieldHandler = e => {
+		const searchString = e.target.value.toLowerCase();
+		setSearchField(searchString);
+	};
+
+	return (
+		<div className='tc'>
+			<h1>RoboFriends</h1>
+			<SearchBox
+				placeholder='Search Robots...'
+				onChangeSearchField={searchFieldHandler}
+				searchValue={searchField}
+			/>
+			<CardList robots={filteredRobots} />
+		</div>
+	);
+};
 
 export default App;
