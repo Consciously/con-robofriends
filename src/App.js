@@ -1,42 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import CardList from './components/CardList/CardList.component';
 import SearchBox from './components/SearchBox/SearchBox.component';
 import Scroll from './components/Scroll/Scroll.component';
+import { setSearchField, fetchUsersAsync } from './store/actions';
+import { selectSearchString } from './store/selectors';
 import ErrorBoundry from './components/ErrorBoundry/ErrorBoundry.component';
 import './App.css';
 
 const App = () => {
-	const [robots, setRobots] = useState([]);
-	const [searchField, setSearchField] = useState('');
-	const [filteredRobots, setFilteredRobots] = useState(robots);
+	const searchString = useSelector(selectSearchString);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const fetchUsers = async () => {
-			try {
-				const response = await fetch(
-					'https://jsonplaceholder.typicode.com/users'
-				);
-				const data = await response.json();
-				setRobots(data);
-			} catch (error) {
-				console.error(error.message);
-			}
-		};
-
-		fetchUsers();
-	}, []);
-
-	useEffect(() => {
-		const filteredRobotsArray = robots.filter(robot =>
-			robot?.name.toLowerCase().includes(searchField)
-		);
-
-		setFilteredRobots(filteredRobotsArray);
-	}, [robots, searchField]);
+		dispatch(fetchUsersAsync());
+	}, [dispatch]);
 
 	const searchFieldHandler = e => {
-		const searchString = e.target.value.toLowerCase();
-		setSearchField(searchString);
+		dispatch(setSearchField(e.target.value.toLowerCase()));
 	};
 
 	return (
@@ -45,17 +26,14 @@ const App = () => {
 			<SearchBox
 				placeholder='Search Robots...'
 				onChangeSearchField={searchFieldHandler}
-				searchValue={searchField}
+				searchValue={searchString}
 			/>
-			{!robots.length ? (
-				<h1>Loading...</h1>
-			) : (
-				<Scroll>
-					<ErrorBoundry>
-						<CardList robots={filteredRobots} />
-					</ErrorBoundry>
-				</Scroll>
-			)}
+
+			<Scroll>
+				<ErrorBoundry>
+					<CardList />
+				</ErrorBoundry>
+			</Scroll>
 		</div>
 	);
 };
