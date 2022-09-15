@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import {
 	selectRobots,
 	selectIsLoading,
-	selectError
+	selectError,
 } from '../../store/selectors';
 import Card from '../Card/Card.component';
 
@@ -11,6 +11,8 @@ const CardList = () => {
 	const selectRobotsArray = useSelector(selectRobots);
 	const isLoading = useSelector(selectIsLoading);
 	const error = useSelector(selectError);
+
+	console.log('CardList');
 
 	return (
 		<Fragment>

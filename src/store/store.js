@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 
 const middleWares = [
 	process.env.NODE_ENV !== 'production' && logger,
-	thunk
+	thunk,
 ].filter(Boolean);
 
 const composedEnhancer =

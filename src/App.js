@@ -6,6 +6,7 @@ import Scroll from './components/Scroll/Scroll.component';
 import { setSearchField, fetchUsersAsync } from './store/actions';
 import { selectSearchString } from './store/selectors';
 import ErrorBoundry from './components/ErrorBoundry/ErrorBoundry.component';
+import Header from './components/Header/Header.component';
 import './App.css';
 
 const App = () => {
@@ -22,7 +23,7 @@ const App = () => {
 
 	return (
 		<div className='tc'>
-			<h1 className='f1'>RoboFriends</h1>
+			<Header />
 			<SearchBox
 				placeholder='Search Robots...'
 				onChangeSearchField={searchFieldHandler}
