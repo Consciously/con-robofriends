@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CardList from './components/CardList/CardList.component';
 import SearchBox from './components/SearchBox/SearchBox.component';
-import Scroll from './components/Scroll/Scroll.component';
 import { setSearchField, fetchUsersAsync } from './store/actions';
 import { selectSearchString } from './store/selectors';
 import ErrorBoundry from './components/ErrorBoundry/ErrorBoundry.component';
@@ -30,11 +29,9 @@ const App = () => {
 				searchValue={searchString}
 			/>
 
-			<Scroll>
-				<ErrorBoundry>
-					<CardList />
-				</ErrorBoundry>
-			</Scroll>
+			<ErrorBoundry>
+				<CardList />
+			</ErrorBoundry>
 		</div>
 	);
 };
