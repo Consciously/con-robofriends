@@ -6,23 +6,30 @@ import {
 	selectError,
 } from '../../store/selectors';
 import Card from '../Card/Card.component';
+import './CardList.styles.css';
 
 const CardList = () => {
 	const selectRobotsArray = useSelector(selectRobots);
 	const isLoading = useSelector(selectIsLoading);
 	const error = useSelector(selectError);
 
-	return (
-		<Fragment>
-			{isLoading ? (
-				<h1>LOADING...</h1>
-			) : error ? (
-				<h1>{error}</h1>
-			) : (
-				selectRobotsArray.map(robot => <Card key={robot.id} robot={robot} />)
-			)}
-		</Fragment>
-	);
+	let content;
+
+	if (isLoading) {
+		content = <h1>Loading...</h1>;
+	} else if (error) {
+		content = <h1>{error}</h1>;
+	} else {
+		content = (
+			<div className='card-container'>
+				{selectRobotsArray.map(robot => (
+					<Card key={robot.id} robot={robot} />
+				))}
+			</div>
+		);
+	}
+
+	return <Fragment>{content}</Fragment>;
 };
 
 export default CardList;
