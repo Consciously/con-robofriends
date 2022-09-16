@@ -12,8 +12,6 @@ const CardList = () => {
 	const isLoading = useSelector(selectIsLoading);
 	const error = useSelector(selectError);
 
-	console.log('CardList');
-
 	return (
 		<Fragment>
 			{isLoading ? (
